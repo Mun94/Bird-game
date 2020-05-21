@@ -11,10 +11,34 @@
 	            left:50%;
 	            transform:translateX(-50%) translateY(-50%)
             }
+            #footer{
+            text-align: center;
+            color:gray;
+            font-weight: 200;
+            padding-bottom: 3rem;
+            font-size:0.8rem;
+            }
+            #footer a{
+            color:gray;
+            text-decoration: none;
+            border-bottom: 1px dotted gray;
+            }
+            #footer:before{
+            content:'';
+            display: block;
+            margin:2rem auto;
+            width:10rem;
+            border-top:1px solid gray;
+            margin-bottom:3rem;
+            }
         </style>
     </head>
     <body>
         <canvas id="bird" width="342" height="500"></canvas>
         <script src="game.js"></script>
+
+        <footer id="footer">
+            <p>Mun Seong Woo &copy; <a href="https://www.youtube.com/channel/UC8n8ftV94ZU_DJLOLtrpORA">Code Explained</a></p>
+        </footer>
     </body>
 </html>
