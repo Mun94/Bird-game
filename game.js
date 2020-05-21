@@ -173,6 +173,56 @@ const gameOver = {
         }
     }
 }
+// PIPES
+const pipes = {
+    position:[],
+
+    top : {sX : 553, sY : 0},
+    bottom : {sX : 502, sY : 0},
+
+    w : 53,
+    h : 400,
+    gap : 85,
+    maxYPos : -150,
+    dx : 2,
+
+    draw : function(){
+        for(let i = 0; i < this.position.length; i++){
+            let p = this.position[i];
+
+            let topYPos = p.y;
+            let bottomYPos = p.y + this.h + this.gap;
+
+            // top pipe
+            ctx.drawImage(sprite, this.top.sX, this.top.sY, this.w, this.h, p.x, topYPos, this.w, this.h);
+            
+            // bottom pipe
+            ctx.drawImage(sprite, this.bottom.sX, this.bottom.sY, this.w, this.h, p.x, bottomYPos, this.w, this.h);
+        }
+    },
+
+    update : function(){
+        if(state.current !== state.game) return;
+
+        if(frames % 100 == 0){
+            this.position.push({
+                x : cvs.width,
+                y : this.maxYPos * (Math.random() + 1)
+            });
+        }
+
+        for(let i =0; i < this.position.length; i++){
+            let p = this.position[i];
+
+            p.x -= this.dx;
+
+            // IF THE PIPES GO BEYOND CANVAS, WE DELETE THEM FROM THE ARRAY
+            if(p.x + this.w <= 0){
+                this.position.shift();
+            }
+        }
+    }
+}
 
 //DRAW
 const draw=()=>{
@@ -183,12 +233,14 @@ const draw=()=>{
     bird.draw();
     getReady.draw();
     gameOver.draw();
+    pipes.draw();
 }
 
 //UPDATE
 const update=()=>{
     bird.update();
     fg.update();
+    pipes.update();
 }
 
 //LOOP
