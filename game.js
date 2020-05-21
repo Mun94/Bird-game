@@ -86,6 +86,15 @@ const bird = {
 
     flap : function(){
 
+    },
+
+    update: function(){
+        // IF THE GAME STATE IS GET READY STATE, THE BIRD MUST FLAP SLOWLY
+        this.period = state.current == state.getReady ? 10 : 5;
+        // WE INCREMENT THE FRAME BY 1, EACH PERIOD
+        this.frame += frames % this.period == 0 ? 1 : 0;
+        // FRAME GOES FROM 0 TO 4, THEN AGAIN TO 0
+        this.frame = this.frame % this.animation.length;
     }
 }
 
@@ -115,7 +124,7 @@ const gameOver = {
     y : 90,
 
     draw: function(){
-        if(state.current === state.gameOver){
+        if(state.current === state.over){
             ctx.drawImage(sprite, this.sX, this.sY, this.w, this.h, this.x, this.y, this.w, this.h);
         }
     }
@@ -134,7 +143,7 @@ const draw=()=>{
 
 //UPDATE
 const update=()=>{
-
+    bird.update();
 }
 
 //LOOP
