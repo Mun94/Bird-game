@@ -215,7 +215,6 @@ const pipes = {
         for(let i =0; i < this.position.length; i++){
             let p = this.position[i];
 
-            p.x -= this.dx;
             let bottomPipeYPos = p.y + this.h + this.gap;
 
             //COLLISION DETECTION
@@ -232,7 +231,36 @@ const pipes = {
             // IF THE PIPES GO BEYOND CANVAS, WE DELETE THEM FROM THE ARRAY
             if(p.x + this.w <= 0){
                 this.position.shift();
+                score.value += 1;
+
+                score.best = Math.max(score.value, score.best);
+                localStorage.setItem("best", score.best);
             }
+        }
+    }
+}
+// SCORE
+const score= {
+    best : parseInt(localStorage.getItem("best")) || 0,
+    value : 0,
+
+    draw : function(){
+        ctx.fillStyle = "#FFF";
+        ctx.strokeStyle = "#000";
+
+        if(state.current == state.game){
+            ctx.lineWidth = 2;
+            ctx.font = "35px Teko";
+            ctx.fillText(this.value, cvs.width/2, 50);
+            ctx.strokeText(this.value, cvs.width/2, 50);
+        } else if(state.current == state.over){
+            // SCORE VALUE
+            ctx.font = "25px Teko";
+            ctx.fillText(this.value, 230, 186);
+            ctx.strokeText(this.value, 230, 186);
+            // BEST SCORE
+            ctx.fillText(this.best, 240, 228);
+            ctx.strokeText(this.best, 240, 228);
         }
     }
 }
@@ -242,11 +270,12 @@ const draw=()=>{
     ctx.fillStyle = "#70c5ce"; //??
     ctx.fillRect(0,0, cvs.width, cvs.height); //??
     bg.draw();
+    pipes.draw(); //pipes.draw이거 왜 위치마다 다르지...?
     fg.draw();
     bird.draw();
     getReady.draw();
     gameOver.draw();
-    pipes.draw();
+    score.draw();
 }
 
 //UPDATE
